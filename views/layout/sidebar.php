@@ -1,5 +1,5 @@
 <?php
-$role = $_SESSION['role']; // Default to 'guest' if not set
+//$role = $_SESSION['role']; // Default to 'guest' if not set
 
 $current_file = basename(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 function is_active_file($names)
