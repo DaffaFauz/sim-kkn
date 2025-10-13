@@ -16,3 +16,11 @@ function redirectWithMsg($url, $msg)
     header("location: $url");
     exit;
 }
+
+function checkLogin(){
+    session_start();
+    if(!isset($_SESSION['username'])){
+        header('location: ../../auth/login.php?pesan=belum_login');
+        exit;
+    }
+}

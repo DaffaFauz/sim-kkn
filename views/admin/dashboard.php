@@ -1,12 +1,13 @@
 <?php
 require_once '..\..\auth\check_login.php';
-//cek_role(['Admin']);
+require_once '../../includes/functions.php';
+checkLogin();
 
 require_once '../../config/db.php';
-// $jml_mahasiswa = $pdo->query("SELECT COUNT(*) FROM mahasiswa")->fetchColumn();
-//$jml_dosen = $pdo->query("SELECT COUNT(*) FROM dosen INNER JOIN user ON dosen.id_user = user.id_user WHERE user.role = 'Dosen Pembimbing'")->fetchColumn();
-// $jml_kelompok = $pdo->query("SELECT COUNT(*) FROM kelompok")->fetchColumn();
-//$jml_lokasi = $pdo->query("SELECT COUNT(*) FROM lokasi")->fetchColumn();
+$jml_mahasiswa = $pdo->query("SELECT COUNT(*) FROM mahasiswa INNER JOIN tahun_akademik ON tahun_akademik.id_tahun = mahasiswa.id_tahun WHERE tahun_akademik.status = 'Aktif'")->fetchColumn();
+$jml_dosen = $pdo->query("SELECT COUNT(*) FROM dosen INNER JOIN user ON dosen.id_user = user.id_user WHERE user.role = 'Dosen Pembimbing'")->fetchColumn();
+$jml_kelompok = $pdo->query("SELECT COUNT(*) FROM kelompok INNER JOIN tahun_akademik ON tahun_akademik.id_tahun = kelompok.id_tahun WHERE tahun_akademik.status = 'Aktif'")->fetchColumn();
+$jml_lokasi = $pdo->query("SELECT COUNT(*) FROM lokasi")->fetchColumn();
 $pageTitle = 'Dashboard Admin'
 ?>
 
@@ -34,7 +35,7 @@ $pageTitle = 'Dashboard Admin'
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             Jumlah Mahasiswa</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php //htmlspecialchars($jml_mahasiswa) 
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= htmlspecialchars($jml_mahasiswa) 
                                                                             ?></div>
                     </div>
                     <div class="col-auto">
@@ -54,7 +55,7 @@ $pageTitle = 'Dashboard Admin'
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Jumlah Dosen Pembimbing
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php //htmlspecialchars($jml_dosen)
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= htmlspecialchars($jml_dosen)
                                                                             ?></div>
                     </div>
                     <div class="col-auto">
@@ -76,7 +77,7 @@ $pageTitle = 'Dashboard Admin'
                         </div>
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php //htmlspecialchars($jml_kelompok)
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= htmlspecialchars($jml_kelompok)
                                                                                             ?></div>
                             </div>
                         </div>
@@ -98,7 +99,7 @@ $pageTitle = 'Dashboard Admin'
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Jumlah Lokasi
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php //htmlspecialchars($jml_lokasi)
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= htmlspecialchars($jml_lokasi)
                                                                             ?></div>
                     </div>
                     <div class="col-auto">

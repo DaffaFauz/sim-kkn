@@ -1,6 +1,7 @@
 <?php
 require_once '..\..\auth\check_login.php';
-//cek_role(['Admin']);
+require_once '../../includes/functions.php';
+checkLogin();
 
 require_once '../../config/db.php';
 // $jml_mahasiswa = $pdo->query("SELECT COUNT(*) FROM mahasiswa")->fetchColumn();
