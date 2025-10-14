@@ -39,7 +39,7 @@
                                 <div class="p-5">
                                         <?php if (isset($_GET['pesan'])) {
                                             if ($_GET['pesan'] == "roleerror") {
-                                                echo "<div class='alert alert-danger'>Role tiddak dikenali</div>";
+                                                echo "<div class='alert alert-danger'>Role tidak dikenali</div>";
                                             } else if ($_GET['pesan'] == "logout") {
                                                 echo "<div class='alert alert-success'>Anda telah berhasil logout</div>";
                                             } else if ($_GET['pesan'] == "belum_login") {

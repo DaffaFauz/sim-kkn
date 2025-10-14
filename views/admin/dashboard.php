@@ -2,13 +2,18 @@
 require_once '..\..\auth\check_login.php';
 require_once '../../includes/functions.php';
 checkLogin();
+checkRole(['Admin']);
+
 
 require_once '../../config/db.php';
 $jml_mahasiswa = $pdo->query("SELECT COUNT(*) FROM mahasiswa INNER JOIN tahun_akademik ON tahun_akademik.id_tahun = mahasiswa.id_tahun WHERE tahun_akademik.status = 'Aktif'")->fetchColumn();
 $jml_dosen = $pdo->query("SELECT COUNT(*) FROM dosen INNER JOIN user ON dosen.id_user = user.id_user WHERE user.role = 'Dosen Pembimbing'")->fetchColumn();
 $jml_kelompok = $pdo->query("SELECT COUNT(*) FROM kelompok INNER JOIN tahun_akademik ON tahun_akademik.id_tahun = kelompok.id_tahun WHERE tahun_akademik.status = 'Aktif'")->fetchColumn();
 $jml_lokasi = $pdo->query("SELECT COUNT(*) FROM lokasi")->fetchColumn();
-$pageTitle = 'Dashboard Admin'
+$pageTitle = 'Dashboard Admin';
+
+// Mendapat data laporan
+$laporan = $pdo->query("SELECT * FROM laporan_harian INNER JOIN kelompok ON laporan_harian.id_kelompok = kelompok.id_kelompok INNER JOIN lokasi ON kelompok.id_lokasi = lokasi.id_lokasi ORDER BY tanggal DESC LIMIT 10")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <?php include '../layout/head.php'; ?>
@@ -139,30 +144,19 @@ $pageTitle = 'Dashboard Admin'
                         </tr>
                     </thead>
                     <tbody>
+                        <?php if($laporan){
+                         foreach($laporan as $l): ?>
                         <tr>
                             <th scope="row">1</th>
-                            <td>12-07-2024</td>
-                            <td>Kelompok A</td>
-                            <td>Survey Lokasi</td>
-                            <td>Desa A</td>
-                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-eye"></i> Lihat Detail</button></td>
+                            <td><?= htmlspecialchars(date('d-M-Y', strtotime($l['tanggal']))); ?></td>
+                            <td><?= htmlspecialchars($l['nama_kelompok']);?></td>
+                            <td><?= htmlspecialchars($l['judul_laporan']);?></td>
+                            <td>Desa <?= htmlspecialchars($l['nama_desa']);?></td>
+                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal<?= $l['id_laporan']?>"><i class="fas fa-eye"></i> Lihat Detail</button></td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>13-07-2024</td>
-                            <td>Kelompok B</td>
-                            <td>Pemetaan Wilayah</td>
-                            <td>Desa B</td>
-                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-eye"></i> Lihat Detail</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>14-07-2024</td>
-                            <td>Kelompok C</td>
-                            <td>Wawancara Masyarakat</td>
-                            <td>Desa C</td>
-                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-eye"></i> Lihat Detail</button></td>
-                        </tr>
+                        <?php endforeach;}else{ ?>
+                            <td colspan="6" class="text-center">Belum ada laporan kegiatan harian yang tersedia.</td>
+                        <?php }?>
                     </tbody>
                 </table>
             </div>
@@ -171,6 +165,33 @@ $pageTitle = 'Dashboard Admin'
     </div>
     <!-- End of Content Column -->
 </div>
+
+<!-- Modal lihat detail -->
+ <?php foreach($laporan as $l):?>
+ <div class="modal fade" id="exampleModal<?= htmlspecialchars($l['id_laporan']);?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Kegiatan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Tanggal: <input type="text" class="form-control"  value="<?= htmlspecialchars(date('d-M-Y', strtotime($l['tanggal']))) ?>" readonly disabled></p>
+                <p>Kelompok: <input type="text" class="form-control"  value="<?= htmlspecialchars($l['nama_kelompok'])?>" readonly disabled></p>
+                <p>Kegiatan: <input type="text" class="form-control"  value="<?= htmlspecialchars($l['judul_laporan'])?>" readonly disabled></p>
+                <p>Isi: <textarea name="" id="" class="form-control" rows="5" readonly disabled><?= htmlspecialchars($l['isi_laporan'])?></textarea></p>
+                <p>Lokasi: <input type="text" class="form-control"  value="Desa A" readonly disabled></p>
+                <p>Dokumentasi: <img src="" alt=""></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Tutup</button>
+            </div> 
+        </div>
+    </div>
+</div>
+<?php endforeach;?>
 
 
 
