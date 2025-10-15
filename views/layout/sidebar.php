@@ -38,303 +38,223 @@ $master_open = is_active_file($master_pages);
     <!-- Jika role Admin, maka tampilkan menu ini -->
      <?php 
      if($_SESSION['role'] === 'Admin'){?>
-     <!-- Divider -->
-    <hr class="sidebar-divider">
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Data Master
-    </div>
-
-     <!-- Menu Data Mahasiswa -->
-    <li class="nav-item <?= is_active_file('data_mahasiswa.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="data_mahasiswa.php">
-            <i class="fas fa-fw fa-user-graduate"></i>
-            <span>Data Mahasiswa</span></a>
-    </li>
-
-    <!-- Menu Data Dosen -->
-    <li class="nav-item">
-        <a class="nav-link collapsed <?= is_active_file('data_dosen.php') || is_active_file('data_pembimbing.php') || is_active_file('data_kaprodi.php') || is_active_file('data_kaprodi.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Data Dosen</span>
-        </a>
-        <div id="collapseTwo" class="collapse <?= is_active_file('data_dosen.php') || is_active_file('data_pembimbing.php') || is_active_file('data_kaprodi.php') ? 'show' : ''; ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Data Master Dosen:</h6>
-                <a class="collapse-item <?= is_active_file('data_dosen.php') ? 'active' : ''; ?>" href="data_dosen.php">Data Dosen</a>
-                <a class="collapse-item <?= is_active_file('data_pembimbing.php') ? 'active' : ''; ?>" href="data_pembimbing.php">Data Dosen Pembimbing</a>
-                <a class="collapse-item <?= is_active_file('data_kaprodi.php') ? 'active' : ''; ?>" href="data_kaprodi.php">Data Kaprodi</a>
-            </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Data Master
         </div>
-    </li>
 
-    <!-- Menu Data Kelompok -->
-    <li class="nav-item <?= is_active_file('data_kelompok.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="data_kelompok.php">
-            <i class="fas fa-fw fa-users-cog"></i>
-            <span>Data Kelompok</span></a>
-    </li>
+        <!-- Menu Data Mahasiswa -->
+        <li class="nav-item <?= is_active_file('data_mahasiswa.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="data_mahasiswa.php">
+                <i class="fas fa-fw fa-user-graduate"></i>
+                <span>Data Mahasiswa</span></a>
+        </li>
 
-    <!-- Menu Data Lokasi -->
-    <li class="nav-item <?= is_active_file('data_lokasi.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="data_lokasi.php">
-            <i class="fas fa-fw fa-map-marker-alt"></i>
-            <span>Data Lokasi</span></a>
-    </li>
-
-    <!-- Menu Data Tahun Akademik -->
-    <li class="nav-item <?= is_active_file('data_tahun-akademik.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="data_tahun-akademik.php">
-            <i class="fas fa-fw fa-calendar"></i>
-            <span>Data Tahun Akademik</span></a>
-    </li>
-
-    <!-- Menu Data Fakultas -->
-    <li class="nav-item <?= is_active_file('data_fakultas.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="data_fakultas.php">
-            <i class="fas fa-fw fa-graduation-cap"></i>
-            <span>Data Fakultas</span></a>
-    </li>
-
-    <!-- Menu Data Prodi -->
-    <li class="nav-item <?= is_active_file('data_prodi.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="data_prodi.php">
-            <i class="fas fa-fw fa-book-open"></i>
-            <span>Data Prodi</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Kelompok
-    </div>
-
-    <!-- Menu Kelompok -->
-    <li class="nav-item <?= is_active_file('kelompok.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="kelompok.php">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Kelompok</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Laporan
-    </div>
-
-    <!-- Laporan -->
-    <li class="nav-item">
-        <a class="nav-link collapsed <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapsePages"
-            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Laporan</span>
-        </a>
-        <div id="collapsePages" class="collapse <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'show' : ''; ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Jenis Laporan:</h6>
-                <a class="collapse-item <?= is_active_file('laporan_kegiatan.php') ? 'active' : ''; ?>" href="laporan_kegiatan.php">Laporan Harian Kelompok</a>
-                <a class="collapse-item <?= is_active_file('laporan_akhir.php') ? 'active' : ''; ?>" href="laporan_akhir.php">Laporan Akhir</a>
-                <a class="collapse-item <?= is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="laporan_nilai.php">Laporan Nilai</a>
+        <!-- Menu Data Dosen -->
+        <li class="nav-item">
+            <a class="nav-link collapsed <?= is_active_file('data_dosen.php') || is_active_file('data_pembimbing.php') || is_active_file('data_kaprodi.php') || is_active_file('data_kaprodi.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Data Dosen</span>
+            </a>
+            <div id="collapseTwo" class="collapse <?= is_active_file('data_dosen.php') || is_active_file('data_pembimbing.php') || is_active_file('data_kaprodi.php') ? 'show' : ''; ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Data Master Dosen:</h6>
+                    <a class="collapse-item <?= is_active_file('data_dosen.php') ? 'active' : ''; ?>" href="data_dosen.php">Data Dosen</a>
+                    <a class="collapse-item <?= is_active_file('data_pembimbing.php') ? 'active' : ''; ?>" href="data_pembimbing.php">Data Dosen Pembimbing</a>
+                    <a class="collapse-item <?= is_active_file('data_kaprodi.php') ? 'active' : ''; ?>" href="data_kaprodi.php">Data Kaprodi</a>
+                </div>
             </div>
+        </li>
+
+        <!-- Menu Data Kelompok -->
+        <li class="nav-item <?= is_active_file('data_kelompok.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="data_kelompok.php">
+                <i class="fas fa-fw fa-users-cog"></i>
+                <span>Data Kelompok</span></a>
+        </li>
+
+        <!-- Menu Data Lokasi -->
+        <li class="nav-item <?= is_active_file('data_lokasi.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="data_lokasi.php">
+                <i class="fas fa-fw fa-map-marker-alt"></i>
+                <span>Data Lokasi</span></a>
+        </li>
+
+        <!-- Menu Data Tahun Akademik -->
+        <li class="nav-item <?= is_active_file('data_tahun-akademik.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="data_tahun-akademik.php">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Data Tahun Akademik</span></a>
+        </li>
+
+        <!-- Menu Data Fakultas -->
+        <li class="nav-item <?= is_active_file('data_fakultas.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="data_fakultas.php">
+                <i class="fas fa-fw fa-graduation-cap"></i>
+                <span>Data Fakultas</span></a>
+        </li>
+
+        <!-- Menu Data Prodi -->
+        <li class="nav-item <?= is_active_file('data_prodi.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="data_prodi.php">
+                <i class="fas fa-fw fa-book-open"></i>
+                <span>Data Prodi</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Kelompok
         </div>
-    </li>
+
+        <!-- Menu Kelompok -->
+        <li class="nav-item <?= is_active_file('kelompok.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="kelompok.php">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Kelompok</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Laporan
+        </div>
+
+        <!-- Laporan -->
+        <li class="nav-item">
+            <a class="nav-link collapsed <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapsePages"
+                aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Laporan</span>
+            </a>
+            <div id="collapsePages" class="collapse <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'show' : ''; ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Jenis Laporan:</h6>
+                    <a class="collapse-item <?= is_active_file('laporan_kegiatan.php') ? 'active' : ''; ?>" href="laporan_kegiatan.php">Laporan Harian Kelompok</a>
+                    <a class="collapse-item <?= is_active_file('laporan_akhir.php') ? 'active' : ''; ?>" href="laporan_akhir.php">Laporan Akhir</a>
+                    <a class="collapse-item <?= is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="laporan_nilai.php">Laporan Nilai</a>
+                </div>
+            </div>
+        </li>
 
      <?php }elseif($_SESSION['role'] === 'Kaprodi'){?>
         <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Data Mahasiswa
-    </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Data Mahasiswa
+        </div>
 
-    <!-- Verifikasi Mahasiswa -->
-     <li class="nav-item <?= is_active_file('data_mahasiswa.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="Verifikasi_mahasiswa.php">
-            <i class="fas fa-fw fa-user-graduate"></i>
-            <span>Verifikasi Mahasiswa</span></a>
-    </li>
+        <!-- Verifikasi Mahasiswa -->
+        <li class="nav-item <?= is_active_file('data_mahasiswa.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="Verifikasi_mahasiswa.php">
+                <i class="fas fa-fw fa-user-graduate"></i>
+                <span>Verifikasi Mahasiswa</span></a>
+        </li>
 
-    <hr class="sidebar-divider">
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Laporan
-    </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Laporan
+        </div>
 
-    <!-- Laporan Nilai Mahasiswa Sesuai prodi Kaprodi -->
-     <li class="nav-item <?= is_active_file('data_mahasiswa.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="laporan_nilai_mahasiswa.php">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Laporan Nilai Mahasiswa</span></a>
-    </li>
+        <!-- Laporan Nilai Mahasiswa Sesuai prodi Kaprodi -->
+        <li class="nav-item <?= is_active_file('data_mahasiswa.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="laporan_nilai_mahasiswa.php">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Laporan Nilai Mahasiswa</span></a>
+        </li>
 
      <?php }elseif($_SESSION['role'] === 'Pembimbing'){?>
         <!-- Divider -->
-    <hr class="sidebar-divider">
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Kelompok
-    </div>
-
-    <!-- Menu Kelompok -->
-    <li class="nav-item <?= is_active_file('kelompok.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="kelompok.php">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Kelompok</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Laporan
-    </div>
-
-    <!-- Laporan -->
-    <li class="nav-item">
-        <a class="nav-link collapsed <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapsePages"
-            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Laporan</span>
-        </a>
-        <div id="collapsePages" class="collapse <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'show' : ''; ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Jenis Laporan:</h6>
-                <a class="collapse-item <?= is_active_file('laporan_kegiatan.php') ? 'active' : ''; ?>" href="laporan_kegiatan.php">Laporan Harian Kelompok</a>
-                <a class="collapse-item <?= is_active_file('laporan_akhir.php') ? 'active' : ''; ?>" href="laporan_akhir.php">Laporan Akhir</a>
-                <a class="collapse-item <?= is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="laporan_nilai.php">Laporan Nilai</a>
-            </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Kelompok
         </div>
-    </li>
+
+        <!-- Menu Kelompok -->
+        <li class="nav-item <?= is_active_file('kelompok.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="kelompok.php">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Kelompok</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Laporan
+        </div>
+
+        <!-- Laporan -->
+        <li class="nav-item">
+            <a class="nav-link collapsed <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapsePages"
+                aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Laporan</span>
+            </a>
+            <div id="collapsePages" class="collapse <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'show' : ''; ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Jenis Laporan:</h6>
+                    <a class="collapse-item <?= is_active_file('laporan_kegiatan.php') ? 'active' : ''; ?>" href="laporan_kegiatan.php">Laporan Harian Kelompok</a>
+                    <a class="collapse-item <?= is_active_file('laporan_akhir.php') ? 'active' : ''; ?>" href="laporan_akhir.php">Laporan Akhir</a>
+                    <a class="collapse-item <?= is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="laporan_nilai.php">Laporan Nilai</a>
+                </div>
+            </div>
+        </li>
      <?php }elseif($_SESSION['role'] === 'Mahasiswa'){?>
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Kelompok
-    </div>
-
-    <!-- Menu Kelompok -->
-    <li class="nav-item <?= is_active_file('kelompok.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="kelompok.php">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Kelompok</span></a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Laporan
-    </div>
-
-    <!-- Laporan -->
-    <li class="nav-item">
-        <a class="nav-link collapsed <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapsePages"
-            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Laporan</span>
-        </a>
-        <div id="collapsePages" class="collapse <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'show' : ''; ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Jenis Laporan:</h6>
-                <a class="collapse-item <?= is_active_file('laporan_kegiatan.php') ? 'active' : ''; ?>" href="laporan_kegiatan.php">Laporan Harian Kelompok</a>
-                <a class="collapse-item <?= is_active_file('laporan_akhir.php') ? 'active' : ''; ?>" href="laporan_akhir.php">Laporan Akhir</a>
-                <a class="collapse-item <?= is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="laporan_nilai.php">Laporan Nilai</a>
-            </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Kelompok
         </div>
-    </li>
+
+        <!-- Menu Kelompok -->
+        <li class="nav-item <?= is_active_file('kelompok.php') ? 'active' : ''; ?>">
+            <a class="nav-link" href="kelompok.php">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Kelompok</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Laporan
+        </div>
+
+        <!-- Laporan -->
+        <li class="nav-item">
+            <a class="nav-link collapsed <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapsePages"
+                aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Laporan</span>
+            </a>
+            <div id="collapsePages" class="collapse <?= is_active_file('laporan_kegiatan.php') || is_active_file('laporan_akhir.php') || is_active_file('laporan_nilai.php') ? 'show' : ''; ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Jenis Laporan:</h6>
+                    <a class="collapse-item <?= is_active_file('laporan_kegiatan.php') ? 'active' : ''; ?>" href="laporan_kegiatan.php">Laporan Harian Kelompok</a>
+                    <a class="collapse-item <?= is_active_file('laporan_akhir.php') ? 'active' : ''; ?>" href="laporan_akhir.php">Laporan Akhir</a>
+                    <a class="collapse-item <?= is_active_file('laporan_nilai.php') ? 'active' : ''; ?>" href="laporan_nilai.php">Laporan Nilai</a>
+                </div>
+            </div>
+        </li>
      <?php } ?>
-
-    
-
-    
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Components</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Components:</h6>
-                <a class="collapse-item" href="buttons.html">Buttons</a>
-                <a class="collapse-item" href="cards.html">Cards</a>
-            </div>
-        </div>
-    </li> -->
-
-    
-
-    <!-- Nav Item - Utilities Collapse Menu -->
-    <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Utilities</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-            data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-                <a class="collapse-item" href="utilities-border.html">Borders</a>
-                <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                <a class="collapse-item" href="utilities-other.html">Other</a>
-            </div>
-        </div>
-    </li> -->
-
-
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-            aria-expanded="true" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Login Screens:</h6>
-                <a class="collapse-item" href="login.html">Login</a>
-                <a class="collapse-item" href="register.html">Register</a>
-                <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Other Pages:</h6>
-                <a class="collapse-item" href="404.html">404 Page</a>
-                <a class="collapse-item" href="blank.html">Blank Page</a>
-            </div>
-        </div>
-    </li> -->
-
-    <!-- Nav Item - Charts -->
-    <!-- <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
-    </li> -->
-
-    <!-- Nav Item - Tables -->
-    <!-- <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
-    </li> -->
-
-    
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

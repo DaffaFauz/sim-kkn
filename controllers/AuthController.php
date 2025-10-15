@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $_SESSION['status'] = $user['status'];
 
         // Ambil data dosen (jika user dosen)
-        $stmt = $pdo->prepare("SELECT nama_dosen, jabatan FROM dosen WHERE id_user = ?");
+        $stmt = $pdo->prepare("SELECT * FROM dosen WHERE id_user = ?");
         $stmt->execute([$user['id_user']]);
         $dataDosen = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -48,6 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
 
         $_SESSION['nama'] = $dataDosen['nama_dosen'];
+        
 
 
         // Memeriksa multi role
@@ -65,16 +66,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_SESSION['available_roles'] = $available_roles;
             header('location: ../views/endpoint.php');
             exit;
-        }
-
-
-        
-        // Jika role hanya 1
-        $finalRole = $available_roles[0];
+        }else{
+            // Jika role hanya 1
+            $finalRole = $available_roles[0];
 
         // Redirect masing-masing role
         if($finalRole === 'Admin'){
-            $_SESSION['username'] = 
+            $_SESSION['available_roles'] = $available_roles[0];
             header('location: ../views/admin/dashboard.php');
         }elseif($finalRole === 'Kaprodi'){
             header('location: ../views/kaprodi/dashboard.php');
@@ -90,6 +88,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             header('location: ../auth/login.php?pesan=roleerror');
         }
         exit;
+        }
+     
     }else{
         header('location: ../auth/login.php?pesan=gagal');
         exit;

@@ -1,5 +1,4 @@
 <?php
-require_once '..\..\auth\check_login.php';
 require_once '../../includes/functions.php';
 checkLogin();
 checkRole(['Admin']);
@@ -145,9 +144,10 @@ $laporan = $pdo->query("SELECT * FROM laporan_harian INNER JOIN kelompok ON lapo
                     </thead>
                     <tbody>
                         <?php if($laporan){
+                            $no = 1;
                          foreach($laporan as $l): ?>
                         <tr>
-                            <th scope="row">1</th>
+                            <th scope="row"><?= htmlspecialchars($no++)?></th>
                             <td><?= htmlspecialchars(date('d-M-Y', strtotime($l['tanggal']))); ?></td>
                             <td><?= htmlspecialchars($l['nama_kelompok']);?></td>
                             <td><?= htmlspecialchars($l['judul_laporan']);?></td>
