@@ -51,13 +51,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
         // Memeriksa multi role
-        if(count($available_roles) > 1){
+        if(count($available_roles) > 1 && in_array('Dosen', $available_roles)){
+            if($available_roles[0] === 'Admin'){
+                $_SESSION['available_roles'] = $available_roles[0];
+                header('location: ../views/admin/dashboard.php');
+            }elseif($available_roles[0] === 'Kaprodi'){
+                header('location: ../views/kaprodi/dashboard.php');
+            }elseif($available_roles[0] === 'Pembimbing'){
+                header('location: ../views/pembimbing/dashboard.php');
+            }
+            exit;
+        }elseif(count($available_roles) > 1 && !in_array('Dosen', $available_roles)){
             $_SESSION['available_roles'] = $available_roles;
             header('location: ../views/endpoint.php');
             exit;
         }
 
-        
+
         
         // Jika role hanya 1
         $finalRole = $available_roles[0];
