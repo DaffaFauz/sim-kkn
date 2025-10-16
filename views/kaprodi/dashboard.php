@@ -31,14 +31,10 @@ $mahasiswa = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Content Column -->
     <div class="col mb-4">
 
-        <!-- Page Heading Laporan Kegiatan Harian Kelompok -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h5 mb-0 text-gray-800">Data Mahasiswa Belum Diverifikasi</h1>
-        </div>
         <!-- Project Card Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Laporan Data</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Data Mahasiswa</h6>
             </div>
             <div class="card-body">
                 <table class="table table-bordered">
@@ -91,12 +87,12 @@ $mahasiswa = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <p>NIM: <input type="text" class="form-control"  value="<?= htmlspecialchars($m['nim']) ?>" readonly disabled></p>
                 <p>Nama Mahasiswa: <input type="text" class="form-control"  value="<?= htmlspecialchars($m['nama_mahasiswa'])?>" readonly disabled></p>
                 <p>Kelas: <input type="text" class="form-control"  value="<?= htmlspecialchars($m['kelas'])?>" readonly disabled></p>
-                <p>Status Pembayaran: <textarea name="" id="" class="form-control" rows="5" readonly disabled><?= htmlspecialchars($m['status_pembayaran'])?></textarea></p>
+                <p>Status Pembayaran: <input name="" id="" class="form-control" value="<?= (htmlspecialchars($m['status'])) ? 'Belum Diverifikasi' : 'Sudah Diverifikasi'?>" readonly disabled></p>
                 <p>Bukti Pembayaran: <img src="" alt=""></p>
             </div>
             <div class="modal-footer">
                 <form action="" method="post">
-                    <button type="submit" class="btn btn-danger">Tolak</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalVerifikasi<?=$m['id_mahasiswa'];?>">Tolak</button>
                     <button type="submit" class="btn btn-success">Verifikasi</button>
                 </form>
                 <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Tutup</button>
@@ -104,6 +100,35 @@ $mahasiswa = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
+<?php endforeach;?>
+
+<!-- Modal Verifikasi -->
+ <?php foreach($mahasiswa as $m):?>
+    <div class="modal fade" id="exampleModalVerifikasi<?= htmlspecialchars($m['id_mahasiswa']);?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Mahasiswa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="../../controllers/KaprodiController.php" method="post">
+                        <input type="hidden" value="<?= htmlspecialchars($m['id_mahasiswa']) ?>" name="id_mahasiswa">
+                        <div class="form-group">
+                            <label for="catatan_tolak">Catatan Penolakan</label>
+                            <textarea name="catatan_tolak" id="" class="form-control" rows="5"></textarea>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" name="status" value="Ditolak" data-toggle="modal" data-target="#exampleModalVerifikasi<?=$m['id_mahasiswa'];?>">Tolak</button>
+                    </form>
+                    <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Tutup</button>
+                </div> 
+            </div>
+        </div>
+    </div>
 <?php endforeach;?>
 
 <!-- footer -->

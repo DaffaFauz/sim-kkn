@@ -32,7 +32,7 @@ class Mahasiswa
 
 
                 // Simpan Data Mahasiswa ke Database
-                $sql = "INSERT INTO {$this->table} (id_user, nim, nama_mahasiswa, alamat, id_fakultas, id_prodi, kelas, id_tahun, bukti_pembayaran, status_pembayaran) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
+                $sql = "INSERT INTO {$this->table} (id_user, nim, nama_mahasiswa, alamat, id_fakultas, id_prodi, kelas, id_tahun, bukti_pembayaran, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute([$id_user, $nim, $nama, $alamat, $fakultas, $prodi, $kelas, $tahun_akademik, $bukti_bayar]);            
                 $this->pdo->commit();

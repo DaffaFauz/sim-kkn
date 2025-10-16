@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+require_once '../config/db.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,6 +61,9 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">LOG IN</h1>
                                     </div>
+                                    <?php if (isset($_SESSION['msg'])): ?>
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert"><?= $_SESSION['msg'] ?></div>
+                                        <?php endif; ?>
                                     <form class="user" method="post" action="../controllers/AuthController.php">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
