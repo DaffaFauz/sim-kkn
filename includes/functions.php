@@ -9,10 +9,11 @@ function uploadFile($file, $path)
     return false;
 }
 
-function redirectWithMsg($url, $msg)
+function redirectWithMsg($url, $msg, $type)
 {
     session_start();
     $_SESSION['msg'] = $msg;
+    $_SESSION['msg_type'] = $type;
     header("location: $url");
     exit;
 }
