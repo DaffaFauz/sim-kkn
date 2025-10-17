@@ -53,5 +53,30 @@ class Lokasi{
             return false;
         }
     }
+
+    public function filter($nama_kecamatan, $nama_kabupaten){
+        try{
+            $sql = "SELECT * FROM lokasi WHERE 1=1";
+            $params = [];
+
+            if(!empty($nama_kecamatan)){
+                $sql .= " AND nama_kecamatan = ?";
+                $params[] = $nama_kecamatan;
+            }
+
+            if(!empty($nama_kabupaten)){
+                $sql .= " AND nama_kabupaten = ?";
+                $params[] = $nama_kabupaten;
+            }
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        }catch(Exception $e){
+            error_log("Error filter lokasi: ". $e->getMessage());
+            return false;
+        }
+    }
 }
 ?>

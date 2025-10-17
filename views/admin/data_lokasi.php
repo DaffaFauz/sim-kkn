@@ -7,17 +7,21 @@ checkRole(['Admin']);
 $pageTitle = 'Data Lokasi';
 
 // Get data Lokasi
+$kecamatan = isset($_GET['kecamatan']) ? trim($_GET['kecamatan']) : '';
+$kabupaten = isset($_GET['kabupaten']) ? trim($_GET['kabupaten']) : '';
+
 $lokasi = new Lokasi($pdo);
+
+if (!empty($kecamatan) || !empty($kabupaten)) {
+    // Jika ada parameter filter, panggil method filter
+    $lokasi = $lokasi->filter($kecamatan, $kabupaten);
+} else {
+    // Jika tidak, ambil semua data
     $lokasi = $lokasi->getAll();
+}
 
-// Get data Kecamatan
-$kecamatan = new Lokasi($pdo);
-// $kecamatan = $kecamatan->getByKecamatan();
+// Untuk dropdown filter lokasi
 $kecamatanFilterButton = $pdo->query("SELECT DISTINCT nama_kecamatan FROM lokasi GROUP BY nama_kecamatan")->fetchAll(PDO::FETCH_ASSOC);
-
-// Get data Kabupaten
-$kabupaten = new Lokasi($pdo);
-// $kabupaten = $kabupaten->getByKabupaten();
 $kabupatenFilterButton = $pdo->query("SELECT DISTINCT nama_kabupaten FROM lokasi GROUP BY nama_kabupaten")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -44,39 +48,31 @@ $kabupatenFilterButton = $pdo->query("SELECT DISTINCT nama_kabupaten FROM lokasi
             <div class="col-sm-3">
                 <h6 class="m-0 font-weight-bold text-primary">Data Lokasi</h6>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-9 d-flex justify-content-end align-items-center">
                 <div class="justify-content-end d-flex">
-                    <form action="../../controllers/LokasiController.php" method="GET" class="mr-2">
-                        <div class="row m-0">
-                            <div class="col-6 justify-content-end">
-                                <div class="dropdown">
-                                    <button class="btn btn-sm border dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Pilih Kecamatan
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <?php foreach($kecamatanFilterButton as $ke): ?>
-                                        <button type="submit" class="dropdown-item" name="kecamatan" value="<?= htmlspecialchars($ke['nama_kecamatan'])?>"><?= htmlspecialchars($ke['nama_kecamatan'])?></button>
-                                        <?php endforeach; ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="dropdown">
-                                    <button class="btn btn-sm border dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Pilih Kabupaten
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <?php foreach($kabupatenFilterButton as $ka): ?>
-                                        <button type="submit" class="dropdown-item"><?= htmlspecialchars($ka['nama_kabupaten'])?></a>
-                                        <?php endforeach;?>
-                                    </div>
-                                </div>
-                            </div>
+                    <form action="data_lokasi.php" method="get" class="d-flex justify-content-end align-items-center">
+                        <div class="form-group mr-2">
+                            <select name="kecamatan" class="form-control form-control-sm">
+                                <option value="">Semua Kecamatan</option>
+                                <?php foreach($kecamatanFilterButton as $ke): ?>
+                                <option value="<?= htmlspecialchars($ke['nama_kecamatan'])?>" <?= (isset($_GET['kecamatan']) && $_GET['kecamatan'] == $ke['nama_kecamatan']) ? 'selected' : '' ?>><?= htmlspecialchars($ke['nama_kecamatan'])?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group mr-2">
+                                <select name="kabupaten" class="form-control form-control-sm">
+                                <option value="">Semua Kabupaten</option>
+                                <?php foreach($kabupatenFilterButton as $ka): ?>
+                                <option value="<?= htmlspecialchars($ka['nama_kabupaten'])?>" <?= (isset($_GET['kabupaten']) && $_GET['kabupaten'] == $ka['nama_kabupaten']) ? 'selected' : '' ?>><?= htmlspecialchars($ka['nama_kabupaten'])?></option>
+                                <?php endforeach;?>
+                            </select>
                         </div>
                     </form>
-                    <button type="button" class="m-0 font-weight-bold btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahLokasiModal">
+                    <div class="form-group">
+                    <button type="button" class="m-0 btn btn-primary btn-sm" data-toggle="modal" data-target="#tambahLokasiModal">
                         <i class="fas fa-plus"></i> Tambah Data
                     </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -105,7 +101,7 @@ $kabupatenFilterButton = $pdo->query("SELECT DISTINCT nama_kabupaten FROM lokasi
                                 <i class="fas fa-edit">Edit </i></button>
                                 <form action="../../controllers/LokasiController.php" method="post" class="d-inline">
                                     <input type="hidden" name="id_lokasi" value="<?= $row['id_lokasi'] ?>">
-                                    <button type="submit" class="btn btn-sm btn-danger" name="hapus" onclick="return confirm('Hapus data lokasi ini?')">Hapus</button>
+                                    <button type="submit" class="btn btn-sm btn-danger" name="hapus" onclick="return confirm('Hapus data lokasi ini?')"><i class="fas fa-trash-alt"></i> Hapus</button>
                                 </form>
                                 </td>
                     </tr>
@@ -194,6 +190,17 @@ $kabupatenFilterButton = $pdo->query("SELECT DISTINCT nama_kabupaten FROM lokasi
 <?php endif; ?>
 
 
-
 <!-- Footer -->
  <?php include '../layout/footer.php';?>
+
+ <script>
+    $('DOMContentLoaded').ready(function () {
+        $('select[name="kecamatan"]').on('change', function () {
+            $('form[method="get"]').submit();
+        });
+
+        $('select[name="kabupaten"]').on('change', function () {
+            $('form[method="get"]').submit();
+        })
+    })
+</script>
