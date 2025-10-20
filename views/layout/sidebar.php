@@ -52,6 +52,21 @@ $master_open = is_active_file($master_pages);
                 <i class="fas fa-fw fa-user-graduate"></i>
                 <span>Data Mahasiswa</span></a>
         </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link collapsed <?php// is_active_file('data_mahasiswa.php') || is_active_file('data_mahasiswa.php') || is_active_file('data_kaprodi.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                <i class="fas fa-fw fa-user"></i>
+                <span>Data Mahasiswa</span>
+            </a>
+            <div id="collapseOne" class="collapse <?php// is_active_file('data_mahasiswa.php') || is_active_file('data_mahasiswa_verifikasi.php') || is_active_file('data_kaprodi.php') ? 'show' : ''; ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Data Master Mahasiswa:</h6>
+                    <a class="collapse-item <?php// is_active_file('data_mahasiswa.php') ? 'active' : ''; ?>" href="data_mahasiswa.php">Data Mahasiswa</a>
+                    <a class="collapse-item <?php// is_active_file('data_mahasiswa_verifikasi.php') ? 'active' : ''; ?>" href="data_mahasiswa_verifikasi.php">Data Verifikasi Mahasiswa</a>
+                </div>
+            </div>
+        </li> -->
+
 
         <!-- Menu Data Dosen -->
         <li class="nav-item">

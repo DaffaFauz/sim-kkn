@@ -53,5 +53,17 @@ if(isset($_POST['daftar'])){
     } else {
         redirectWithMsg('../views/mahasiswa/pendaftaran.php', 'Terjadi kesalahan, coba lagi.');
     }
-    echo "Halo";
+}
+
+if(isset($_POST['hapus']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+    $id_mahasiswa = trim($_POST['id_mahasiswa']);
+    $mahasiswa = new Mahasiswa($pdo);
+    $result = $mahasiswa->hapus($id_mahasiswa);
+    if($result){
+        redirectWithMsg('../views/admin/data_mahasiswa.php', 'Data mahasiswa berhasil dihapus!', 'success');
+        exit;
+    }else{
+        redirectWithMsg('../views/admin/data_mahasiswa.php', 'Terjadi kesalahan, coba lagi!', 'danger');
+        exit;
+    }
 }

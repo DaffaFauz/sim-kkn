@@ -1,12 +1,27 @@
 <?php
 include_once '../../config/db.php';
 include_once '../../includes/functions.php';
+require_once '../../models/Mahasiswa.php';
 checkLogin();
 checkRole(['Admin']);
 $pageTitle = 'Data Mahasiswa';
 
-// Get data mahasiswa
-$mahasiswa = $pdo->query("SELECT * FROM mahasiswa m INNER JOIN prodi p ON m.id_prodi = p.id_prodi INNER JOIN fakultas f on m.id_fakultas = f.id_fakultas INNER JOIN tahun_akademik t ON m.id_tahun = t.id_tahun WHERE m.status = 'Diverifikasi Kaprodi' OR m.status = 'Diverifikasi' AND t.status = 'Aktif'")->fetchAll(PDO::FETCH_ASSOC);
+$mahasiswa = new Mahasiswa($pdo);
+
+// Prodi filter
+$prodiFilterButton = $pdo->query("SELECT DISTINCT * FROM mahasiswa LEFT JOIN prodi ON mahasiswa.id_prodi = prodi.id_prodi")->fetchAll(PDO::FETCH_ASSOC);
+$statusFilterButton = ['Diverifikasi', 'Diverifikasi Kaprodi', 'Ditolak'];
+
+$prodi = isset($_GET['prodi']) ? trim($_GET['prodi']) : '';
+$status = isset($_GET['status']) ? trim($_GET['status']) : '';
+
+if(!empty($prodi) || !empty($status)){
+    $mahasiswa = $mahasiswa->filter($prodi, $status);
+} else {
+    $mahasiswa = $mahasiswa->getAll();
+}
+
+
 ?>
 
 <!-- Head -->
@@ -18,21 +33,33 @@ $mahasiswa = $pdo->query("SELECT * FROM mahasiswa m INNER JOIN prodi p ON m.id_p
 <!-- Topbar -->
 <?php include '../layout/topbar.php'; ?>
 
-<!-- Content Row -->
+<?php if(isset($_SESSION['msg'])): ?>
+    <div class="alert alert-<?php echo $_SESSION['msg_type']; ?>">
+        <?= $_SESSION['msg'] ?>
+    </div>
+    <?php unset($_SESSION['msg']); ?>
+<?php endif; ?>
+
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-body pt-4 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">Data Mahasiswa</h6>
-        <form action="">
-            <div class="dropdown">
-                <button class="btn btn-sm border dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown button
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+        <form action="data_mahasiswa.php" method="get" class="d-flex justify-content-end align-items-center">
+           <div class="form-group mr-2">
+                <select name="prodi" class="form-control form-control-sm">
+                    <option value="">Pilih Prodi</option>
+                    <?php foreach($prodiFilterButton as $p): ?>
+                    <option value="<?= htmlspecialchars($p['nama_prodi'])?>" <?= (isset($_GET['prodi']) && $_GET['prodi'] == $p['nama_prodi']) ? 'selected' : '' ?>><?= htmlspecialchars($p['nama_prodi'])?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+           <div class="form-group mr-2">
+                <select name="status" class="form-control form-control-sm">
+                    <option value="">Pilih Status Mahasiswa</option>
+                    <?php foreach($statusFilterButton as $s): ?>
+                    <option value="<?= htmlspecialchars($s)?>" <?= (isset($_GET['status']) && $_GET['status'] == $s) ? 'selected' : '' ?>><?= htmlspecialchars($s)?></option>
+                    <?php endforeach;?>
+                </select>
             </div>
         </form>
     </div>
@@ -64,13 +91,16 @@ $mahasiswa = $pdo->query("SELECT * FROM mahasiswa m INNER JOIN prodi p ON m.id_p
                             <td>
                                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-eye"></i> Lihat</button>
                                 <button type="button" class="btn btn-sm btn-warning ml-1" data-toggle="modal" data-target="#exampleModalEdit"><i class="fas fa-edit"></i>Edit</button>
-                                <a href="hapus.php?nim=<?= htmlspecialchars($m['id_mahasiswa'])?>" class="btn btn-sm btn-danger ml-1" onclick="return confirm('Hapus data mahasiswa <?= htmlspecialchars($m['nama_mahasiswa'])?>">Hapus</a>
+                                <form action="../../controllers/MahasiswaController.php" method="post" class="d-inline">
+                                    <input type="hidden" name="id_mahasiswa" value="<?= $m['id_mahasiswa'] ?>">
+                                    <button type="submit" class="btn btn-sm btn-danger" name="hapus" onclick="return confirm('Hapus data Mahasiswa ini?')"><i class="fas fa-trash-alt"></i> Hapus</button>
+                                </form>
                             </td>
                         </tr>   
                     <?php endforeach;
                     }else {?>
                         <tr>
-                            <td colspan="6" class="text-center">Tidak ada data mahasiswa.</td>
+                            <td colspan="7" class="text-center">Tidak ada data mahasiswa.</td>
                         </tr>  
                 <?php }?>
                 </tbody>
@@ -81,3 +111,13 @@ $mahasiswa = $pdo->query("SELECT * FROM mahasiswa m INNER JOIN prodi p ON m.id_p
 
 <!-- footer -->
  <?php include '../layout/footer.php'; ?>
+  <script>
+    $('DOMContentLoaded').ready(function () {
+        $('select[name="prodi"]').on('change', function () {
+            $('form[method="get"]').submit();
+        });
+        $('select[name="status"]').on('change', function () {
+            $('form[method="get"]').submit();
+        })
+    })
+</script>
