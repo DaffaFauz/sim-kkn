@@ -28,10 +28,16 @@ class TahunAkademik{
         }
     }
 
-    public function ubah_status($id){
+    public function ubah($id){
         try{
-            $stmt = $this->pdo->prepare("UPDATE {$this->table} SET status = WHEN status = 'Aktif' THEN 'Tidak Aktif' ELSE THEN 'Aktif' END WHERE id_tahun = ?");
-            $stmt->execute([$id]);
+            $stmt = $this->pdo->prepare("UPDATE {$this->table} SET status = ? WHERE id_tahun = ?");
+            // Ambil status saat ini
+            $currentStmt = $this->pdo->prepare("SELECT status FROM {$this->table} WHERE id_tahun = ?");
+            $currentStmt->execute([$id]);
+            $currentStatus = $currentStmt->fetchColumn();
+
+            $newStatus = ($currentStatus === 'Aktif') ? 'Nonaktif' : 'Aktif';
+            $stmt->execute([$newStatus, $id]);
             return true;
         }catch(PDOException $e){
             error_log("Error ubah status tahun akademik: ". $e->getMessage());
@@ -41,6 +47,10 @@ class TahunAkademik{
 
     public function hapus($id){
         try{
+            $check = $this->pdo->query("SELECT status FROM {$this->table} WHERE id_tahun = $id")->fetchColumn();
+            if($check === 'Aktif'){
+                return false; // Tidak boleh hapus tahun akademik yang aktif
+            }
             $stmt = $this->pdo->prepare("DELETE FROM tahun_akademik WHERE id_tahun = ?");
             $stmt->execute([$id]);
             return true;
