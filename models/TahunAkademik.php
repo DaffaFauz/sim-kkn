@@ -30,7 +30,7 @@ class TahunAkademik{
 
     public function ubah_status($id){
         try{
-            $stmt = $this->pdo->prepare("UPDATE {$this->table} SET status = CASE WHEN status = 'Aktif' THEN 'Tidak Aktif' ELSE 'Aktif' END WHERE id_tahun = ?");
+            $stmt = $this->pdo->prepare("UPDATE {$this->table} SET status = WHEN status = 'Aktif' THEN 'Tidak Aktif' ELSE THEN 'Aktif' END WHERE id_tahun = ?");
             $stmt->execute([$id]);
             return true;
         }catch(PDOException $e){

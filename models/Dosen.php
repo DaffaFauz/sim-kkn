@@ -3,8 +3,8 @@ class Dosen{
     private $pdo;
     private $table = 'dosen';
 
-    public function __construct($db){
-        $this->pdo = $db;
+    public function __construct($pdo){
+        $this->pdo = $pdo;
     }
 
     public function tambah($nidn, $nama_dosen, $id_prodi, $jabatan){
@@ -24,5 +24,7 @@ class Dosen{
             return false;
         }
     }
+
+    
 }
 ?>
