@@ -189,7 +189,7 @@ $tahunAkademik = $getTahunAkademik->fetchAll(PDO::FETCH_ASSOC);
 
             if(id_fakultas){
                 $.ajax({
-                    url: '../../controllers/ProdiController.php',
+                    url: '../../controllers/DaftarController.php',
                     type: 'POST',
                     data: {fakultas: id_fakultas},
                     dataType: 'json',
