@@ -59,5 +59,17 @@ class Prodi{
         return false;
         }
     }
+
+    public function DaftarProdiByFakultas($fakultas){
+        try{
+            $sql = "SELECT * FROM prodi WHERE id_fakultas = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$fakultas]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch(Exception $e){
+            error_log("Error daftar prodi by fakultas: ". $e->getMessage());
+            return false;
+        }
+    }
 }
 ?>

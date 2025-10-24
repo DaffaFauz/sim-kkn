@@ -89,7 +89,7 @@ if(!empty($prodi) || !empty($status)){
                             <td><?= htmlspecialchars($m['kelas'])?></td>
                             <td><?= htmlspecialchars($m['alamat'])?></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-eye"></i> Lihat</button>
+                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal<?= htmlspecialchars($m['id_mahasiswa']);?>"><i class="fas fa-eye"></i> Lihat</button>
                                 <button type="button" class="btn btn-sm btn-warning ml-1" data-toggle="modal" data-target="#exampleModalEdit"><i class="fas fa-edit"></i>Edit</button>
                                 <form action="../../controllers/MahasiswaController.php" method="post" class="d-inline">
                                     <input type="hidden" name="id_mahasiswa" value="<?= $m['id_mahasiswa'] ?>">
@@ -108,6 +108,65 @@ if(!empty($prodi) || !empty($status)){
         </div>
     </div>
 </div>
+
+<!-- Modal lihat detail -->
+ <?php foreach($mahasiswa as $m):?>
+ <div class="modal fade" id="exampleModal<?= htmlspecialchars($m['id_mahasiswa']);?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Mahasiswa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>NIM: <input type="text" class="form-control"  value="<?= htmlspecialchars($m['nim']) ?>" readonly disabled></p>
+                <p>Nama Mahasiswa: <input type="text" class="form-control"  value="<?= htmlspecialchars($m['nama_mahasiswa'])?>" readonly disabled></p>
+                <p>Kelas: <input type="text" class="form-control"  value="<?= htmlspecialchars($m['kelas'])?>" readonly disabled></p>
+                <p>Status Pembayaran: <input name="" id="" class="form-control" value="<?= (htmlspecialchars($m['status'])) ? 'Belum Diverifikasi' : 'Sudah Diverifikasi'?>" readonly disabled></p>
+                <p>Bukti Pembayaran: <img src="" alt=""></p>
+            </div>
+            <div class="modal-footer">
+                <form action="" method="post">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalVerifikasi<?=$m['id_mahasiswa'];?>">Tolak</button>
+                    <button type="submit" class="btn btn-success">Verifikasi</button>
+                </form>
+                <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Tutup</button>
+            </div> 
+        </div>
+    </div>
+</div>
+<?php endforeach;?>
+
+<!-- Modal Verifikasi -->
+ <?php foreach($mahasiswa as $m):?>
+    <div class="modal fade" id="exampleModalVerifikasi<?= htmlspecialchars($m['id_mahasiswa']);?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Mahasiswa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="../../controllers/KaprodiController.php" method="post">
+                        <input type="hidden" value="<?= htmlspecialchars($m['id_mahasiswa']) ?>" name="id_mahasiswa">
+                        <div class="form-group">
+                            <label for="catatan_tolak">Catatan Penolakan</label>
+                            <textarea name="catatan_tolak" id="" class="form-control" rows="5"></textarea>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" name="status" value="Ditolak" data-toggle="modal" data-target="#exampleModalVerifikasi<?=$m['id_mahasiswa'];?>">Tolak</button>
+                    </form>
+                    <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Tutup</button>
+                </div> 
+            </div>
+        </div>
+    </div>
+<?php endforeach;?>
 
 <!-- footer -->
  <?php include '../layout/footer.php'; ?>

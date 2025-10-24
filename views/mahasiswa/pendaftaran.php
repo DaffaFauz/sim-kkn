@@ -8,11 +8,7 @@ $getFakultas = $pdo->prepare("SELECT id_fakultas, nama_fakultas FROM fakultas");
 $getFakultas->execute();
 $fakultas = $getFakultas->fetchAll(PDO::FETCH_ASSOC);
 
-// Mendapatkan data tahun akademik yang aktif
-$getTahunAkademik = $pdo->prepare("SELECT id_tahun, tahun_akademik FROM tahun_akademik WHERE status = 'Aktif'");
-$getTahunAkademik->execute();
-$tahunAkademik = $getTahunAkademik->fetchAll(PDO::FETCH_ASSOC);
-
+// Mendapatkan data prodi berdasarkan fakultas (jika ada)
 
 ?>
 
@@ -55,9 +51,10 @@ $tahunAkademik = $getTahunAkademik->fetchAll(PDO::FETCH_ASSOC);
                                 <h1 class="h4 text-gray-900 mb-4">Daftar</h1>
                             </div>
                             <?php if (isset($_SESSION['msg'])): ?>
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <div class="alert alert-<?= $_SESSION['msg_type'] ?> alert-dismissible fade show" role="alert">
                                     <?= $_SESSION['msg'] ?>
                                </div>
+                            <?php unset($_SESSION['msg']);?>
                             <?php endif; ?>
                             <form class="user" method="post" action="../../controllers/MahasiswaController.php" enctype="multipart/form-data">
 
@@ -83,6 +80,17 @@ $tahunAkademik = $getTahunAkademik->fetchAll(PDO::FETCH_ASSOC);
                                     <input type="text" class="form-control" id="alamat" name="alamat"
                                         placeholder="alamat" value="">
                                     <div class="invalid-feedback">Alamat harus diisi.</div>
+                                </div>
+                                
+                                <!-- Alamat -->
+                                <div class="form-group">
+                                    <label for="jenis_kelamin">Jenis Kelamin</label>
+                                    <select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
+                                        <option selected value="">-- Pilih Jenis Kelamin --</option>
+                                        <option value="Laki-laki">Laki-laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                    <div class="invalid-feedback">Jenis Kelamin harus diisi.</div>
                                 </div>
 
                                 <!-- Fakultas -->
@@ -114,29 +122,6 @@ $tahunAkademik = $getTahunAkademik->fetchAll(PDO::FETCH_ASSOC);
                                         <option value="Non Reguler">Non Reguler</option>
                                     </select>
                                     <div class="invalid-feedback">Kelas harus diisi.</div>
-                                </div>
-
-                                <!-- Tahun Akademik -->
-                                <div class="form-group">
-                                    <label for="thn_akademik">Tahun Akademik</label>
-                                    <select name="thn_akademik" class="form-control" id="thn_akademik">
-                                        <?php foreach($tahunAkademik as $row): ?>
-                                            <option value="<?= $row['id_tahun']?>" selected><?= $row['tahun_akademik'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <div class="invalid-feedback">Tahun akademik harus diisi.</div>
-                                </div>
-
-                                <!-- Bukti Bayar -->
-                                <div class="form-group">
-                                    <div class="input-group-prepend">
-                                        <span id="label_bukti_bayar">Bukti Pembayaran</span>
-                                    </div>
-                                    <div class="custom-file">
-                                        <label class="custom-file-label" for="bukti_bayar">Pilih file</label>
-                                        <input type="file" class="custom-file-input" id="bukti_bayar" aria-describedby="inputGroupFileAddon01" name="bukti_bayar" accept="image/png, image/jpeg, image/gif">
-                                    </div>
-                                    <div class="invalid-feedback">Bukti pembayaran harus diunggah.</div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user col-12" name="daftar">Daftar</button>
                             </form>
@@ -185,11 +170,11 @@ $tahunAkademik = $getTahunAkademik->fetchAll(PDO::FETCH_ASSOC);
             $('#fakultas').on('change', function(){
             // Mendapatkan input fakultas
             var id_fakultas = $('#fakultas').val();
-            $('#prodi').html('<option selected disabled value="">-- Pilih Prodi --</option>');
+            $('#prodi').html(`<option selected disabled value="">-- Pilih Prodi --</option>`);
 
             if(id_fakultas){
                 $.ajax({
-                    url: '../../controllers/DaftarController.php',
+                    url: '../../controllers/MahasiswaController.php',
                     type: 'POST',
                     data: {fakultas: id_fakultas},
                     dataType: 'json',

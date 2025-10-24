@@ -14,9 +14,10 @@ class User{
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([$username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $hash = password_hash($password, PASSWORD_DEFAULT);
 
             // Cek ketersediaan data & matching password
-            if($user && password_verify($password, $user['password'])){
+            if($user && password_verify($hash, $user['password'])){
                 return $user;
             }
             return false;
